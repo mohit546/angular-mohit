@@ -1,0 +1,10 @@
+.jpa-sidemenu-container {
+    border: 1px solid #000;
+    padding: 20px;
+    text-align: center;
+}
+
+.jpa-divider {
+    border-top: 1px solid #ddd;
+    margin: 15px 0px;
+}
