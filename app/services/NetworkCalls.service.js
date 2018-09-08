@@ -1,29 +1,45 @@
-(function () {
+(function() {
     'use strict';
     angular.module('johnPizza')
         .factory('networkCalls', NetworkCalls);
     NetworkCalls.$inject = ['$http'];
+
     function NetworkCalls($http) {
         console.log('NetworkCalls loaded !!!');
 
 
         var service = {
-            getNewsHeadlines: getNewsHeadlines
+            getProductListRequest: getProductListRequest,
+            getFilterListRequest: getFilterListRequest
         };
 
         return service;
 
-        function getNewsHeadlines() {
-            return $http.get('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=' + apiKey)
-                .then(getNewsHeadlinesComplete)
-                .catch(getNewsHeadlinesFailed);
+        function getProductListRequest() {
+            return $http.get('/getProductList')
+                .then(getProductListRequestComplete)
+                .catch(getProductListRequestFailed);
 
-            function getNewsHeadlinesComplete(response) {
+            function getProductListRequestComplete(response) {
                 return response.data;
             }
 
-            function getNewsHeadlinesFailed(error) {
-                console.log('XHR Failed for getAvengers.' + error.data);
+            function getProductListRequestFailed(error) {
+                console.log('XHR Failed for getProductList.' + error.data);
+            }
+        }
+
+        function getFilterListRequest() {
+            return $http.get('/getFilterList')
+                .then(getFilterListRequestComplete)
+                .catch(getFilterListRequestFailed);
+
+            function getFilterListRequestComplete(response) {
+                return response.data;
+            }
+
+            function getFilterListRequestFailed(error) {
+                console.log('XHR Failed for getFilterList.' + error.data);
             }
         }
     }

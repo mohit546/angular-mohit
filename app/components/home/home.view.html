@@ -1,33 +1,67 @@
 <div class="row">
-    <div class="col-sm-4">
-        <div class="jpa-sidemenu-container">
+    <div class="col-sm-4" style="padding-top: 30px;">
+        <div class="jpa-filtermenu-container">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="btn-group" role="group" aria-label="...">
-                        <button type="button" class="btn btn-success">Veg</button>
-                        <button type="button" class="btn btn-danger">Non Veg</button>
+                        <button type="button" class="btn btn-default" ng-class="homeCtrl.filters.veg ? 'active': ''" ng-click="homeCtrl.filters.veg = true;">Veg</button>
+                        <button type="button" class="btn btn-default" ng-class="homeCtrl.filters.veg === false ? 'active': ''" ng-click="homeCtrl.filters.veg = false;">Non Veg</button>
                     </div>
                     <div class="jpa-divider"></div>
                 </div>
                 <div class="col-sm-12">
+                    <rzslider rz-slider-model="homeCtrl.filters.slider.value" rz-slider-options="homeCtrl.filters.slider.options"></rzslider>
                     <div class="jpa-divider"></div>
                 </div>
                 <div class="col-sm-12">
-                    <select name="pizza-base" id="input" class="form-control">
+                    <select name="pizza-base" class="form-control" ng-model="homeCtrl.filters.pizzaBase" ng-options="i as i for i in homeCtrl.filterList.baseList">
                         <option value="">-- Select One --</option>
                     </select>
                     <div class="jpa-divider"></div>
                 </div>
                 <div class="col-sm-12">
-                    <select name="pizza-type" id="input" class="form-control">
+                    <select name="pizza-type" class="form-control" ng-model="homeCtrl.filters.pizzaType" ng-options="i as i for i in homeCtrl.filterList.typeList">
                         <option value="">-- Select One --</option>
                     </select>
+                    <div class="jpa-divider"></div>
+                </div>
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-xs btn-danger" ng-click="homeCtrl.clearFilter();">Clear Filters</button>
                     <div class="jpa-divider"></div>
                 </div>
             </div>
 
         </div>
     </div>
-    <div class="col-sm-8"></div>
+    <div class="col-sm-8" style="padding-top: 30px;">
+        <div class="jpa-itemlisting-container">
+            <div class="row">
+                <div class="col-sm-12" ng-repeat="product in productListContainer = (homeCtrl.productList |
+                    filter:{
+                        veg: homeCtrl.filters.veg,
+                        base: homeCtrl.filters.pizzaBase ? homeCtrl.filters.pizzaBase : '',
+                        type: homeCtrl.filters.pizzaType ? homeCtrl.filters.pizzaType : ''
+                    } | filter: homeCtrl.rangeFilter)">
+                    <div class="jpa-item-wrapper">
+                        <img class="jpa-item-image" src="./app/resources/img/140x170.png" alt="pizza">
+                        <div class="jpa-item-text">
+                            <h3>{{product.title}}</h3>
+                            <ul>
+                                <li>{{product.base}}</li>
+                                <li>{{product.type}}</li>
+                                <li>{{product.veg ? 'Veg' : 'Non Veg'}}</li>
+                            </ul>
+                            <div class="jpa-item-price">
+                                <span>Rs. {{product.price}}/-</span>
+                                <button type="button" class="btn btn-info">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12" ng-show="!productListContainer.length">
+                    <h3 class="jpa-norecord-message">Sorry no records found !!!</h3>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
